@@ -1,5 +1,8 @@
+const dotenv = require("dotenv");
 const express = require('express');
 const app = new express();
+
+dotenv.config();
 
 /*This tells the server to use the client 
 folder for all static resources*/
@@ -19,9 +22,19 @@ variables that you set up in the .env file*/
 // const api_url = process.env.API_URL;
 
 function getNLUInstance() {
-    /*Type the code to create the NLU instance and return it.
-    You can refer to the image in the instructions document
-    to do the same.*/
+    let api_key = process.env.API_KEY;
+    let api_url = process.env.API_URL;
+
+    const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
+    const { IamAuthenticator } = require('ibm-watson/auth');
+
+    const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
+        version: '2021-08-01',
+        authenticator: new IamAuthenticator({ apikey: api_key }),
+        serviceUrl: api_url,
+    });
+
+    return naturalLanguageUnderstanding;
 }
 
 
